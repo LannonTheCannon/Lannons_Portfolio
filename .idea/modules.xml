@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Intro_Streamlit_Apps/.idea/Intro_Streamlit_Apps.iml" filepath="$PROJECT_DIR$/../Intro_Streamlit_Apps/.idea/Intro_Streamlit_Apps.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Lannons_Portfolio.iml" filepath="$PROJECT_DIR$/.idea/Lannons_Portfolio.iml" />
     </modules>
   </component>

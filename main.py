@@ -36,6 +36,60 @@ def main():
     # Set the image as background for the profile-pic div
     set_png_as_page_bg(image_path)
 
+    st.markdown(
+        """
+        <style>
+        [data-testid="stSidebar"] {
+            background-image: url('https://media.discordapp.net/attachments/1109716744978837587/1267714200621285446/wood.jpg?ex=66a9ca5a&is=66a878da&hm=d661e01658071bee5f2caf6418bf2d7ebbef8d3eeab10a0be2142750ff27fbfb&=&format=webp&width=936&height=936');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        [data-testid="stSidebar"] > div:first-child {
+            background-color: rgba(0, 0, 0, 0.3);  /* Adds a dark overlay for better text visibility */
+        }
+        [data-testid="stSidebar"] .sidebar-content {
+            color: white;  /* Makes text white for better visibility */
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown("""
+    <style>
+    .custom-container {
+        background-color: #f0f2f6;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    .row-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    .image-container {
+        flex: 1;
+        margin-right: 20px;
+    }
+    .text-container {
+        flex: 2;
+        font_color: black;
+    }
+    .custom-image {
+        width: 100%;
+        max-width: 285px;   
+        height: auto;
+    }
+
+    .stApp {
+        background: linear-gradient(to top, white, #d6ccc2, white);
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
     # Main portfolio sidebar
     with st.sidebar:
         st.title('Lannon Khau')
@@ -68,35 +122,6 @@ def main():
 
 def display_home():
     # Custom CSS for the section box
-    st.markdown("""
-    <style>
-    .custom-container {
-        background-color: #f0f2f6;
-        border-radius: 10px;
-        padding: 20px;
-        margin-bottom: 20px;
-    }
-    .row-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-start;
-    }
-    .image-container {
-        flex: 1;
-        margin-right: 20px;
-    }
-    .text-container {
-        flex: 2;
-    }
-    .custom-image {
-        width: 100%;
-        max-width: 285px;
-        height: auto;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
     # Hero Section
     st.title('Lannon Khau')
     st.subheader('Empowering Businesses with AI-Driven Data Solutions')
