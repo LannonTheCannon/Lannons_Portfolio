@@ -2,94 +2,80 @@ import streamlit as st
 import base64
 import os
 
-
 def get_base64_of_bin_file(bin_file):
     with open(bin_file, 'rb') as f:
         data = f.read()
     return base64.b64encode(data).decode()
 
-
-def set_png_as_page_bg(png_file):
-    bin_str = get_base64_of_bin_file(png_file)
-    page_bg_img = '''
-    <style>
-    .profile-pic {
-        background-image: url("data:image/png;base64,%s");
-        background-size: cover;
-        background-position: center;
-        width: 200px;
-        height: 200px;
-        border-radius: 50%%;
-        margin: 0 auto;
-        box-shadow: 5px 0px 5px rgba(0,0,0,0.8); 
-
-    }
-    </style>
-    ''' % bin_str
-    st.markdown(page_bg_img, unsafe_allow_html=True)
-
-
 def main():
-    st.set_page_config(page_title='Lannon Khau - Portfolio', layout='wide')
+    st.set_page_config(
+        page_title="Lannon Khau - Portfolio",
+        page_icon="🧊",
+        layout="wide",
+        initial_sidebar_state="expanded",
+        menu_items={
+            'Get Help': None,
+            'Report a bug': None,
+            'About': None
+        }
+    )
 
-    # Get the path to the image
-    image_path = os.path.join(os.path.dirname(__file__), "images", "profile.jpg")
+    # Get the path to the sidebar image
+    sidebar_image_path = os.path.join(os.path.dirname(__file__), "images", "boy_and_dog.png")
 
-    # Set the image as background for the profile-pic div
-    set_png_as_page_bg(image_path)
+    # Encode the sidebar image
+    sidebar_image_base64 = get_base64_of_bin_file(sidebar_image_path)
 
+    # Set the sidebar background
     st.markdown(
-        """
+        f"""
         <style>
-        [data-testid="stSidebar"] {
-            background-image: url('https://media.discordapp.net/attachments/1109716744978837587/1267714200621285446/wood.jpg?ex=66a9ca5a&is=66a878da&hm=d661e01658071bee5f2caf6418bf2d7ebbef8d3eeab10a0be2142750ff27fbfb&=&format=webp&width=936&height=936');
+        [data-testid="stSidebar"] {{
+            background-image: url("data:image/png;base64,{sidebar_image_base64}");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-        }
-        [data-testid="stSidebar"] > div:first-child {
-            background-color: rgba(0, 0, 0, 0.3);  /* Adds a dark overlay for better text visibility */
+        }}
+        [data-testid="stSidebar"] > div:first-child {{
+            background-color: rgba(0, 0, 0, 0.3);
             box-shadow: 5px 0px 5px rgba(0,0,0,0.8); 
-        }
-        [data-testid="stSidebar"] .sidebar-content {
-            color: white;  /* Makes text white for better visibility */
-        }
-
-            /* Style specifically for headers in the sidebar */
-        [data-testid="stSidebar"] .sidebar-content h1,
-        [data-testid="stSidebar"] .sidebar-content h2,
-        [data-testid="stSidebar"] .sidebar-content h3 {
+        }}
+        [data-testid="stSidebar"] .sidebar-content {{
             color: white;
-        }
-
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        """
-        <style>
-        /* Existing styles... */
-
+        }}
+        /* Style for all text elements in the sidebar */
+        [data-testid="stSidebar"] {{
+            color: white !important;
+        }}
+        /* Style specifically for headers in the sidebar */
+        [data-testid="stSidebar"] h1,
+        [data-testid="stSidebar"] h2,
+        [data-testid="stSidebar"] h3,
+        [data-testid="stSidebar"] h4,
+        [data-testid="stSidebar"] h5,
+        [data-testid="stSidebar"] h6 {{
+            color: white !important;
+        }}
         /* Style for radio buttons text */
-        [data-testid="stSidebar"] .stRadio label {
+        [data-testid="stSidebar"] .stRadio label {{
             color: white !important;
-        }
-
+        }}
         /* Additional styles for radio buttons */
-        [data-testid="stSidebar"] .stRadio div[role="radiogroup"] label {
+        [data-testid="stSidebar"] .stRadio div[role="radiogroup"] label {{
             color: white !important;
-        }
-
-        [data-testid="stSidebar"] .stRadio div[role="radiogroup"] div {
+        }}
+        [data-testid="stSidebar"] .stRadio div[role="radiogroup"] div {{
             color: white !important;
-        }
-
+        }}
         /* Force all text in sidebar to be white */
-        [data-testid="stSidebar"] * {
+        [data-testid="stSidebar"] * {{
             color: white !important;
-        }
+        }}
+        /* Style for the title */
+        [data-testid="stSidebar"] .sidebar-content [data-testid="stMarkdownContainer"] p {{
+            color: white !important;
+            font-weight: bold;
+        }}
         </style>
         """,
         unsafe_allow_html=True
@@ -122,7 +108,6 @@ def main():
         max-width: 285px;   
         height: auto;
     }
-
     .stApp {
         background: linear-gradient(to top, white, #d6ccc2, white);
     }
@@ -134,9 +119,12 @@ def main():
         st.title('Lannon Khau')
 
         # Profile picture
-        st.markdown("""
+        profile_image_path = os.path.join(os.path.dirname(__file__), "images", "profile.jpg")
+        profile_image_base64 = get_base64_of_bin_file(profile_image_path)
+        st.markdown(f"""
         <div style="text-align: center;">
-            <div class="profile-pic"></div>
+            <img src="data:image/png;base64,{profile_image_base64}" 
+                 style="width:200px; height:200px; border-radius:50%; object-fit:cover;">
         </div>
         """, unsafe_allow_html=True)
 
@@ -158,15 +146,12 @@ def main():
     elif selected_section == ':goggles: Hobbies':
         display_hobbies()
 
-
 def display_home():
-    # Custom CSS for the section box
-    # Hero Section
     st.title('Lannon Khau')
     st.subheader('Empowering Businesses with AI-Driven Data Solutions')
 
     # Get the path to the image for the About Me section
-    about_image_path = os.path.join(os.path.dirname(__file__), "images", "boy_and_dog.png")
+    about_image_path = os.path.join(os.path.dirname(__file__), "images", "profile.jpg")
 
     # Encode the image
     about_image_base64 = get_base64_of_bin_file(about_image_path)
@@ -231,18 +216,14 @@ def display_home():
     # Call to Action
     st.button('Contact Me', on_click=lambda: st.write('Contact form or details here'))
 
-
 def display_resume():
     st.title('Resume')
-
 
 def display_projects():
     st.title('Projects')
 
-
 def display_hobbies():
     st.title('Hobbies')
-
 
 if __name__ == "__main__":
     main()
