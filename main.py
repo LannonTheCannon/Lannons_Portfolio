@@ -2,7 +2,6 @@ import streamlit as st
 import base64
 import os
 
-
 def get_base64_of_bin_file(bin_file):
     with open(bin_file, 'rb') as f:
         data = f.read()
@@ -22,7 +21,6 @@ def set_png_as_page_bg(png_file):
         border-radius: 50%%;
         margin: 0 auto;
         box-shadow: 5px 0px 5px rgba(0,0,0,0.8); 
-
     }
     </style>
     ''' % bin_str
