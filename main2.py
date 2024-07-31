@@ -227,9 +227,16 @@ def display_home():
     # Get the path to the images
     about_image_path = os.path.join(os.path.dirname(__file__), "images", "profile.jpg")
     project_image_path = os.path.join(os.path.dirname(__file__), "images", "boy_and_dog.png")
+    project_image_path1 = os.path.join(os.path.dirname(__file__), "images", "boy_and_dog.png")
+    project_image_path2 = os.path.join(os.path.dirname(__file__), "images", "boy_and_dog.png")
+    project_image_path3 = os.path.join(os.path.dirname(__file__), "images", "boy_and_dog.png")
+
 
     # Encode the images
     about_image_base64 = get_base64_of_bin_file(about_image_path)
+    project_image_base64 = get_base64_of_bin_file(project_image_path)
+    project_image_base64 = get_base64_of_bin_file(project_image_path)
+    project_image_base64 = get_base64_of_bin_file(project_image_path)
     project_image_base64 = get_base64_of_bin_file(project_image_path)
 
     st.markdown("""
