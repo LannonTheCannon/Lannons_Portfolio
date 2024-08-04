@@ -1,0 +1,154 @@
+# styles.py
+# This script gets the CSS styling and the image style
+#
+#######################################################################
+
+def get_styles(sidebar_image_base64):
+    return f'''
+    <style>
+        [data-testid="stSidebar"] {{
+            background-image: url("data:image/png;base64,{sidebar_image_base64}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }}
+
+        /* ++++++++++++++ Style for the top bar ++++++++++++++ */
+        
+        div[data-testid="stToolbar"] {
+            background-color: white !important;
+            background-image: none !important;
+        }
+
+        /* Style for the top bar's buttons and icons */
+        div[data-testid="stToolbar"] button,
+        div[data-testid="stToolbar"] svg {
+            color: #d6ccc2 !important;
+            fill: #d6ccc2 !important;
+        }
+
+        /* Remove the border under the top bar */
+        div[data-testid="stToolbar"]::after {
+            background-color: transparent !important;
+        }
+
+        /* Hide default Streamlit header */
+        header[data-testid="stHeader"] {
+            display: none !important;
+        }
+
+        /* ++++++++++++++ Style for the sidebar ++++++++++++++ */
+
+        /* Style for the sidebar title */
+        [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h1 {
+            color: white !important;
+            font-weight: bold;
+            font-size: 2.0rem;
+            margin-top: -5rem;
+            margin-bottom: 7.5rem;
+            padding-top: 0;
+        }
+
+        /* Adjust the top padding of the sidebar content */
+        [data-testid="stSidebar"] .sidebar-content {
+            padding-top: 0rem;
+        }
+
+        [data-testid="stSidebar"] > div:first-child {
+            background-color: rgba(0, 0, 0, 0.3);
+            box-shadow: 5px 0px 5px rgba(0,0,0,0.8); 
+        }
+        [data-testid="stSidebar"] .sidebar-content {
+            color: white;
+            padding-top: 2rem;  /* Add some space at the top of the sidebar */
+        }
+        /* Style for all text elements in the sidebar */
+        [data-testid="stSidebar"] {
+            color: white !important;
+        }
+        /* Style specifically for headers in the sidebar */
+        [data-testid="stSidebar"] h1,
+        [data-testid="stSidebar"] h2,
+        [data-testid="stSidebar"] h3,
+        [data-testid="stSidebar"] h4,
+        [data-testid="stSidebar"] h5,
+        [data-testid="stSidebar"] h6 {
+            color: white !important;
+            margin-bottom: 1rem;  /* Add some space below headers */
+        }
+
+        /* Style for radio buttons container */
+        [data-testid="stSidebar"] .stRadio {
+            margin-top: 0px;  /* Add some space above the radio group */
+        }
+        /* Style for radio buttons text */
+        [data-testid="stSidebar"] .stRadio label {
+            color: white !important;
+            width: 100%;
+            text-align: center;
+            padding: 0.2rem 0;  /* Add minimal vertical padding */
+            margin: 0.1rem 0;  /* Add minimal vertical margin */
+        }
+        /* Additional styles for radio buttons */
+        [data-testid="stSidebar"] .stRadio div[role="radiogroup"] {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        [data-testid="stSidebar"] .stRadio div[role="radiogroup"] > div {
+            margin: 0.1rem 0;  /* Minimal space between buttons */
+        }
+        /* Force all text in sidebar to be white */
+        [data-testid="stSidebar"] * {
+            color: white !important;
+        }
+        /* Style for the title */
+        [data-testid="stSidebar"] .sidebar-content [data-testid="stMarkdownContainer"] p {
+            color: white !important;
+            font-weight: bold;
+            margin-bottom: 1rem;  /* Add some space below the title */
+        }
+
+        /* ++++++++++++++ Style for the main content ++++++++++++++ */
+
+        .custom-container {
+            background-color: #f0f2f6;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .row-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .image-container {
+            flex: 1;
+            margin-right: 20px;
+        }
+        .text-container {
+            flex: 2;
+            font_color: black;
+        }
+        .custom-image {
+            width: 100%;
+            max-width: 285px;   
+            height: auto;
+        }
+        .stApp {
+            background: linear-gradient(to top, #FFFAF0, #FFFAF0, #FAEBD7);
+        }
+        
+    </style>
+    ''', unsafe_allow_html=True)
+
+def get_profile_image_style(profile_image_base64):
+    return f'''
+        <div style="text-align: center;">
+            <img src="data:image/png;base64,{profile_image_base64}"
+                 style="width:auto; height:130px; object-fit:cover; 
+                 margin-bottom: -1205px; margin-right: -15px; border-radius: 50%;">
+        </div>
+    '''
+
