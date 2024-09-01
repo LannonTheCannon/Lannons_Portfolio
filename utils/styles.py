@@ -59,7 +59,6 @@ def get_styles_main(sidebar_image_base64):
 
     [data-testid="stSidebar"] .sidebar-content {{
         color: white;
-        padding-top: 2rem;
     }}
 
     /* Style for all text elements in the sidebar */
@@ -147,7 +146,7 @@ def get_styles_main(sidebar_image_base64):
     }}
 
     .stApp {{
-        background: linear-gradient(to top, #FFFAF0, #FFFAF0, #FAEBD7);
+        background: linear-gradient(to top, #FAEBD7, #FFFAF0, #FAEBD7);
     }}
     </style>
     """

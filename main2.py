@@ -7,10 +7,10 @@ import streamlit as st
 import base64
 import os
 from src.landing_page import display_home
-from src.chatbot_page import display_chatbot
-from src.curriculum_page import display_course_curriculum
+#from src.chatbot_page import display_chatbot
+from src.syllabus_page import display_syllabus
+from src.course_structure_page import display_course_structure
 from src.projects_page import display_projects
-from src.resume_page import display_resume
 from utils.styles import get_styles_main, get_profile_image_style, get_styles_landing
 
 def get_base64_of_bin_file(bin_file):
@@ -39,7 +39,6 @@ def main():
         }
     )
 
-    st.markdown(get_styles_main(sidebar_image_base64), unsafe_allow_html=True)
 
     # Main portfolio sidebar
     with st.sidebar:
@@ -52,24 +51,25 @@ def main():
 
         sections = [
             'Home',
-            'Ask Me Anything',
-            'Course Curriculum',
-            'Projects',
-            'Resume',
+            'Syllabus',
+            'Course Structure',
+            'Student Projects',
+            'Sign Up'
         ]
 
     selected_section = st.sidebar.radio('', sections)
 
     if selected_section == 'Home':
+        #st.markdown(get_styles_main(sidebar_image_base64), unsafe_allow_html=True)
         display_home()
-    elif selected_section == 'Ask Me Anything':
-        display_chatbot()
-    elif selected_section == 'Course Curriculum':
-        display_course_curriculum()
-    elif selected_section == 'Projects':
-        display_projects()
-    elif selected_section == 'Resume':
-        display_resume()
+    elif selected_section == 'Syllabus':
+        display_syllabus()
+    elif selected_section == 'Course Structure':
+        display_course_structure()
+    elif selected_section == 'Student Projects':
+        display_student_projects()
+    elif selected_section == 'Sign Up':
+        display_sign_up()
 
 if __name__ == "__main__":
     main()
