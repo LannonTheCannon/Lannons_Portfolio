@@ -1,6 +1,18 @@
 import streamlit as st
 import base64
 import os
+import openai
+from src2.resume_page import display_resume
+from src2.project_page import display_projects
+from src2.hobbies_page import display_hobbies
+import time
+
+ASSISTANT_ID = 'asst_OUgnR5TbpMHivgAvdaG28t3I'
+THREAD_ID = 'thread_Ph5I8HpBIDb3rrIieBLfimlJ'
+client = openai.OpenAI(api_key=st.secrets['OPENAI_API_KEY'])
+
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
 def get_base64_of_bin_file(bin_file):
     with open(bin_file, 'rb') as f:
@@ -49,8 +61,8 @@ def set_background_images(profile_pic, sidebar_bg):
 def display_home():
     # Custom CSS for the section box
     # Hero Section
-    st.title('Lannon Khau')
-    st.subheader('Empowering Businesses with AI-Driven Data Solutions')
+    st.title('Welcome to Lannon\'s Portfolio')
+    st.subheader('Slow is smooth. Smooth is fast.')
 
     # Get the path to the image for the About Me section
     about_image_path = os.path.join(os.path.dirname(__file__), "images", "boy_and_dog.png")
@@ -118,18 +130,66 @@ def display_home():
     # Call to Action
     st.button('Contact Me', on_click=lambda: st.write('Contact form or details here'))
 
+def get_current_date_info():
+    current_date = datetime.datetime.now(pytz.timezone('America/Los_Angeles'))
+    return {
+        'current_date': current_date.strftime('%Y-%m-%d'),
+        'current_day':  current_date.strftime('%A'),
+        'current_time': current_date.strftime('%H:%M:%S'),
+        'datetime_obj': current_date
+    }
 
-def display_resume():
-    st.title('Resume')
+def get_assistant_response(assistant_id, thread_id, user_input):
+    try:
+        # Add the user's message to the thread
+        client.beta.threads.messages.create(
+            thread_id=thread_id,
+            role="user",
+            content=user_input
+        )
+        # Create a run
+        run = client.beta.threads.runs.create(
+            thread_id=thread_id,
+            assistant_id=assistant_id
+        )
+        # Wait for the run to complete
+        while True:
+            run_status = client.beta.threads.runs.retrieve(thread_id=thread_id, run_id=run.id)
+            if run_status.status == 'completed':
+                break
+            time.sleep(1)
+        # Retrieve the assistant's messages
+        messages = client.beta.threads.messages.list(thread_id=thread_id)
 
+        # Return the latest assistant message
+        return messages.data[0].content[0].text.value
+    except Exception as e:
+        st.error(f"Error getting assistant response: {str(e)}")
+        return "I'm sorry, but an error occurred while processing your request."
 
-def display_projects():
-    st.title('Projects')
+def display_chatbot():
+    st.title('Mark Watney Chatbot')
+    
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
 
+    prompt = st.chat_input("Ask me anything!")
+    
+    if prompt:
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
 
-def display_hobbies():
-    st.title('Hobbies')
-
+        with st.chat_message("assistant"):
+            message_placeholder = st.empty()
+            full_response = get_assistant_response(
+                ASSISTANT_ID,
+                THREAD_ID,  
+                prompt
+            )
+            message_placeholder.markdown(full_response)
+        st.session_state.messages.append({"role": "assistant", "content": full_response})
 
 def main():
     st.set_page_config(page_title='Lannon Khau - Portfolio', layout='wide')
@@ -215,6 +275,7 @@ def main():
 
         sections = [
             ':house_with_garden: Home',
+            '🤖 Lannon\'s Chatbot',
             ':page_with_curl: Resume',
             ':toolbox: Projects',
             ':goggles: Hobbies',
@@ -224,6 +285,8 @@ def main():
 
     if selected_section == ':house_with_garden: Home':
         display_home()
+    elif selected_section == '🤖 Lannon\'s Chatbot':
+        display_chatbot() 
     elif selected_section == ':page_with_curl: Resume':
         display_resume()
     elif selected_section == ':toolbox: Projects':
