@@ -2,9 +2,9 @@ import streamlit as st
 import base64
 import os
 import openai
-from src2.resume_page import display_resume
+from src2.resume_page2 import display_resume
 from src2.project_page import display_projects
-from src2.hobbies_page import display_hobbies
+from src2.showcase_page import display_showcase
 import time
 
 ASSISTANT_ID = 'asst_OUgnR5TbpMHivgAvdaG28t3I'
@@ -92,40 +92,244 @@ def display_home():
     """
     st.markdown(about_me_html, unsafe_allow_html=True)
 
-    # Skills
-    st.header('Skills')
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Python", "95%")
-    col2.metric("Streamlit", "90%")
-    col3.metric("AI/ML", "85%")
-    col4.metric("Data Analysis", "88%")
+    # Skills and Technologies
+    st.header('Skills & Technologies')
+    
+    skills = [
+        {
+            "category": "Programming Languages",
+            "items": [
+                {"name": "Python", "details": "4 years experience, expert in data analysis, web dev, and AI"},
+                {"name": "SQL", "details": "3 years experience, proficient in complex queries and database design"},
+                {"name": "JavaScript", "details": "2 years experience, used in web development projects"}
+            ]
+        },
+        {
+            "category": "Frameworks & Libraries",
+            "items": [
+                {"name": "Streamlit", "details": "Created 10+ data apps, including this portfolio"},
+                {"name": "TensorFlow", "details": "Implemented in 5 machine learning projects"},
+                {"name": "Pandas", "details": "Used extensively in data analysis and cleaning"}
+            ]
+        },
+        {
+            "category": "Tools & Technologies",
+            "items": [
+                {"name": "Git", "details": "Daily use for version control and collaboration"},
+                {"name": "Docker", "details": "Used for containerizing and deploying applications"},
+                {"name": "AWS", "details": "Experience with EC2, S3, and Lambda services"}
+            ]
+        }
+    ]
+
+    # Custom CSS for skills section
+    st.markdown("""
+    <style>
+    .skill-category {
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 0px;
+        margin-bottom: 10px;
+    }
+    .skill-item {
+        background-color: #f0f2f6;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .skill-name {
+        font-weight: bold;
+        font-size: 16px;
+    }
+    .skill-details {
+        font-size: 16px;
+        color: #555;
+        margin-top: 5px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # Display skills
+    for category in skills:
+        st.markdown(f"<div class='skill-category'>{category['category']}</div>", unsafe_allow_html=True)
+        for item in category['items']:
+            st.markdown(f"""
+            <div class="skill-item">
+                <div class="skill-name">{item['name']}</div>
+                <div class="skill-details">{item['details']}</div>
+            </div>
+            """, unsafe_allow_html=True)
+
 
     # Featured Projects
     st.header('Featured Projects')
-    proj1, proj2, proj3 = st.columns(3)
 
-    # Get the path to the image for projects
-    project_image_path = os.path.join(os.path.dirname(__file__), "images", "profile.jpg")
-    project_image_base64 = get_base64_of_bin_file(project_image_path)
+    projects = [
+        {
+            "title": "NASA Exoplanet Archive",
+            "image": "Exoplanets.jpg",
+            "description": "Analysis and visualization of exoplanet data from NASA's archive, providing insights into planetary systems beyond our solar system.",
+            "tech_stack": ["Python", "Pandas", "Matplotlib", "Streamlit"]
+        },
+        {
+            "title": "Real Estate AI Integration",
+            "image": "Real_Estate.png",
+            "description": "AI-powered platform for real estate market analysis, predicting property values and identifying investment opportunities.",
+            "tech_stack": ["TensorFlow", "Scikit-learn", "React", "Node.js"]
+        },
+        {
+            "title": "Medical AI Diagnostics",
+            "image": "Health_AI.jpg",
+            "description": "Machine learning model for early detection of diseases using medical imaging, improving diagnostic accuracy and speed.",
+            "tech_stack": ["PyTorch", "OpenCV", "Flask", "Docker"]
+        }
+    ]
 
-    project_image_html = f'<img src="data:image/png;base64,{project_image_base64}" style="width:100%;">'
+    # Custom CSS for project section
+    st.markdown("""
+    <style>
+    .project-card {
+        background-color: #f0f2f6;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        height: 100%;
+    }
+    .project-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+    .project-title {
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    .project-description {
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 10px;
+    }
+    .project-tech {
+        font-size: 16px;
+        color: #888;
+    }
+    .tech-tag {
+        background-color: #e0e0e0;
+        padding: 3px 7px;
+        border-radius: 3px;
+        margin-right: 5px;
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
-    with proj1:
-        st.markdown(project_image_html, unsafe_allow_html=True)
-        st.subheader('AI Chatbot for E-commerce')
-    with proj2:
-        st.markdown(project_image_html, unsafe_allow_html=True)
-        st.subheader('Data Visualization Dashboard')
-    with proj3:
-        st.markdown(project_image_html, unsafe_allow_html=True)
-        st.subheader('Predictive Analytics Tool')
-
+    # Display projects side by side
+    cols = st.columns(3)
+    for idx, project in enumerate(projects):
+        with cols[idx]:
+            image_path = os.path.join(os.path.dirname(__file__), "images", project["image"])
+            image_base64 = get_base64_of_bin_file(image_path)
+            
+            st.markdown(f"""
+            <div class="project-card">
+                <img src="data:image/png;base64,{image_base64}" class="project-image">
+                <div class="project-title">{project['title']}</div>
+                <div class="project-description">{project['description']}</div>
+                <div class="project-tech">
+                    {"".join(f'<span class="tech-tag">{tech}</span>' for tech in project['tech_stack'])}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+    
     # Services
     st.header('Services')
-    serv1, serv2, serv3 = st.columns(3)
-    serv1.write('🤖 AI Chatbot Development')
-    serv2.write('📊 Data Website Creation')
-    serv3.write('🐍 Python Tutoring')
+    
+    services = [
+        {
+            "name": "AI Chatbot Development",
+            "icon": "🤖",
+            "description": "Custom AI chatbot solutions for businesses, integrating natural language processing and machine learning for enhanced customer interactions.",
+            "key_points": [
+                "Tailored chatbot development using state-of-the-art AI technologies",
+                "Integration with existing business systems and workflows",
+                "Continuous improvement and learning capabilities"
+            ]
+        },
+        {
+            "name": "Data Website Creation",
+            "icon": "📊",
+            "description": "Developing interactive, data-driven websites and dashboards using Streamlit and other modern web technologies.",
+            "key_points": [
+                "Custom data visualization and interactive elements",
+                "Real-time data processing and display",
+                "User-friendly interfaces for complex data analysis"
+            ]
+        },
+        {
+            "name": "Python Skills Development",
+            "icon": "🐍",
+            "description": "Comprehensive Python training programs for individuals and teams, focusing on practical applications in data science and AI.",
+            "key_points": [
+                "Customized curriculum based on skill level and goals",
+                "Hands-on projects and real-world problem solving",
+                "Preparation for Python certification exams (e.g., PCEP)"
+            ]
+        }
+    ]
+
+    # Custom CSS for services section
+    st.markdown("""
+    <style>
+    .service-container {
+        background-color: #f0f2f6;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    .service-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .service-icon {
+        font-size: 24px;
+        margin-right: 10px;
+    }
+    .service-name {
+        font-weight: bold;
+        font-size: 18px;
+    }
+    .service-description {
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 10px;
+    }
+    .service-key-points {
+        font-size: 14px;
+        margin-left: 20px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # Display services
+    for service in services:
+        st.markdown(f"""
+        <div class="service-container">
+            <div class="service-header">
+                <span class="service-icon">{service['icon']}</span>
+                <span class="service-name">{service['name']}</span>
+            </div>
+            <div class="service-description">{service['description']}</div>
+            <ul class="service-key-points">
+                {"".join(f"<li>{point}</li>" for point in service['key_points'])}
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
     # Call to Action
     st.button('Contact Me', on_click=lambda: st.write('Contact form or details here'))
@@ -257,7 +461,7 @@ def main():
     }
 
     .stApp {
-        background: linear-gradient(to top, white, #d6ccc2, white);
+        background: linear-gradient(to top, #466365, #DAE3E5, #DAE3E5);
     }
     </style>
     """, unsafe_allow_html=True)
@@ -277,8 +481,8 @@ def main():
             ':house_with_garden: Home',
             '🤖 Lannon\'s Chatbot',
             ':page_with_curl: Resume',
-            ':toolbox: Projects',
-            ':goggles: Hobbies',
+            ':toolbox: My Projects',
+            ':goggles: Project Showcase',
         ]
 
     selected_section = st.sidebar.radio('Navigation', sections)
@@ -289,10 +493,10 @@ def main():
         display_chatbot() 
     elif selected_section == ':page_with_curl: Resume':
         display_resume()
-    elif selected_section == ':toolbox: Projects':
+    elif selected_section == ':toolbox: My Projects':
         display_projects()
-    elif selected_section == ':goggles: Hobbies':
-        display_hobbies()
+    elif selected_section == ':goggles: Project Showcase':
+        display_showcase()
 
 if __name__ == "__main__":
     main()

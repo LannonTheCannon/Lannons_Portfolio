@@ -146,7 +146,7 @@ def get_styles_main(sidebar_image_base64):
     }}
 
     .stApp {{
-        background: linear-gradient(to top, #FAEBD7, #FFFAF0, #FAEBD7);
+        background: linear-gradient(to top, #04080F, #DAE3E5, #04080F);
     }}
     </style>
     """
