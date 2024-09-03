@@ -61,29 +61,144 @@ def display_home():
     """
     st.markdown(about_me_html, unsafe_allow_html=True)
 
-    # Career Timeline
-    #st.markdown('<h2 class="section-header">Career Timeline</h2>', unsafe_allow_html=True)
+      # Custom CSS for the timeline
+    st.markdown("""
+    <style>
+    .timeline {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+        background: rgba(70, 99, 101, 0.1);  /* Lighter shade of #466365 with transparency */
+        padding: 20px 0;
+        border-radius: 10px;
+    }
+    .timeline::after {
+        content: '';
+        position: absolute;
+        width: 4px;
+        background-color: #466365;  /* Darker shade from the gradient */
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -2px;
+    }
+    .container {
+        padding: 5px 10px;
+        position: relative;
+        background-color: inherit;
+        width: 50%;
+    }
+    .container::after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        right: -8px;
+        background-color: #DAE3E5;  /* Light color from the gradient */
+        border: 3px solid #466365;  /* Darker shade from the gradient */
+        top: 15px;
+        border-radius: 50%;
+        z-index: 1;
+    }
+    .left {
+        left: 0;
+    }
+    .right {
+        left: 50%;
+    }
+    .left::before {
+        content: " ";
+        height: 0;
+        position: absolute;
+        top: 18px;
+        width: 0;
+        z-index: 1;
+        right: 20px;
+        border: medium solid #DAE3E5;
+        border-width: 8px 0 8px 8px;
+        border-color: transparent transparent transparent #DAE3E5;
+    }
+    .right::before {
+        content: " ";
+        height: 0;
+        position: absolute;
+        top: 18px;
+        width: 0;
+        z-index: 1;
+        left: 20px;
+        border: medium solid #DAE3E5;
+        border-width: 8px 8px 8px 0;
+        border-color: transparent #DAE3E5 transparent transparent;
+    }
+    .right::after {
+        left: -8px;
+    }
+    .content {
+        padding: 10px 15px;
+        background-color: #DAE3E5;  /* Light color from the gradient */
+        position: relative;
+        border-radius: 6px;
+        font-size: 0.9em;
+    }
+    .content h2 {
+        color: #466365;  /* Darker shade from the gradient */
+        margin-bottom: 5px;
+        font-size: 1.5em;
+    }
+    .content .date {
+        color: #466365;  /* Darker shade from the gradient */
+        font-style: italic;
+        font-size: 1.2em;
+        margin-bottom: 5px;
+    }
+    .content p {
+        margin: 0;
+        line-height: 1.2;
+        color: #333;  /* Darker text for better readability */
+    }
+    @media screen and (max-width: 600px) {
+        /* ... (mobile styles remain the same) ... */
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
     st.subheader('Career Timeline')
-    # Get current date
-    current_date = date.today().isoformat()
 
-    timeline_items = [
-        {"id": 1, "content": "Data Quality Analyst at Scale AI", "start": "2024-04-01", "end": current_date},
-        {"id": 2, "content": "Software Developer at InStack AI Solutions", "start": "2022-06-01", "end": current_date},
-        {"id": 3, "content": "Data Analyst at Logic Labs LLC", "start": "2021-05-01", "end": "2023-02-28"},
-        {"id": 4, "content": "Graduated from California State University - Fullerton", "start": "2021-08-01"},
-    ]
+    # Timeline HTML
+    timeline_html = """
+    <div class="timeline">
+        <div class="container right">
+            <div class="content">
+                <h2>Data Quality Analyst at Scale AI</h2>
+                <p class="date">April 2024 - Present</p>
+                <p>Training cutting-edge AI models and ensuring data quality.</p>
+            </div>
+        </div>
+        <div class="container left">
+            <div class="content">
+                <h2>Software Developer at InStack AI Solutions</h2>
+                <p class="date">June 2022 - Present</p>
+                <p>Developing AI-powered solutions and data-driven websites.</p>
+            </div>
+        </div>
+        <div class="container right">
+            <div class="content">
+                <h2>Data Analyst at Logic Labs LLC</h2>
+                <p class="date">May 2021 - February 2023</p>
+                <p>Conducted data analysis for business decision-making.</p>
+            </div>
+        </div>
+        <div class="container left">
+            <div class="content">
+                <h2>Graduated from CSU Fullerton</h2>
+                <p class="date">August 2021</p>
+                <p>Earned a degree in Computer Science (AI and Data Science).</p>
+            </div>
+        </div>
+    </div>
+    """
 
-    timeline = st_timeline(timeline_items, groups=[], options={
-        "zoomable": False,
-        "height": "300px",
-        "stack": True,
-        "showCurrentTime": True,
-    })
-
-    if timeline:
-        st.markdown(f'<p class="highlight-text">Selected: {timeline}</p>', unsafe_allow_html=True)
-
+    st.markdown(timeline_html, unsafe_allow_html=True)
 
     # Skills and Technologies
     st.header('Skills & Technologies')

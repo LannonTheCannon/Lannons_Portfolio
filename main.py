@@ -6,7 +6,7 @@ from src2.resume_page2 import display_resume
 from src2.project_page import display_projects
 from src2.showcase_page import display_showcase
 import time
-
+import base64
 
 ASSISTANT_ID = 'asst_OUgnR5TbpMHivgAvdaG28t3I'
 THREAD_ID = 'thread_Ph5I8HpBIDb3rrIieBLfimlJ'
@@ -14,6 +14,11 @@ client = openai.OpenAI(api_key=st.secrets['OPENAI_API_KEY'])
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
+
+def get_base64_of_bin_file(bin_file):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
 
 def set_background_images(profile_pic, sidebar_bg):
     profile_pic_str = get_base64_of_bin_file(profile_pic)
@@ -155,7 +160,7 @@ def main():
     st.markdown("""
     <style>
     .custom-container {
-        background-color: #f0f2f6;
+        background-color: rgba(218, 227, 229, 0.7);  /* Lighter shade of #DAE3E5 with transparency */
         border-radius: 10px;
         padding: 20px;
         margin-bottom: 20px;
@@ -172,7 +177,7 @@ def main():
     }
     .text-container {
         flex: 2;
-        font_color: black;
+        color: #333;  /* Darker text for better readability */
     }
     .custom-image {
         width: 100%;
@@ -181,10 +186,11 @@ def main():
     }
 
     .stApp {
-        background: linear-gradient(to top, #466365, #DAE3E5, #DAE3E5);
+        background: linear-gradient(to top, #466365, #8BA9AB, #DAE3E5);
     }
     </style>
     """, unsafe_allow_html=True)
+
 
     # Main portfolio sidebar
     with st.sidebar:
