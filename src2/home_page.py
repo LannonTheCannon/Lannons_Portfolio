@@ -3,7 +3,6 @@ import streamlit as st
 import os
 import base64
 from datetime import datetime, date
-from streamlit_timeline import st_timeline
 
 def get_base64_of_bin_file(bin_file):
     with open(bin_file, 'rb') as f:
