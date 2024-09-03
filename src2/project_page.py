@@ -54,21 +54,21 @@ def display_projects():
             "description": "Developed a predictive model for exoplanet habitability scores with 85% accuracy using advanced machine learning techniques.",
             "image": "exoexplorer.jpg",
             "tech": "Python, Scikit-learn, TensorFlow, NASA Exoplanet Archive API",
-            "link": "https://github.com/yourusername/exoexplorer"
+            "link": "https://github.com/LannonTheCannon/Exoplanets_Prediction_Model.git"
         },
         {
             "title": "AI-Powered Real Estate Chatbot",
             "description": "Engineered a sophisticated AI chatbot processing over 500 unique real estate queries weekly with a 94% accuracy rate.",
             "image": "real-estate-chatbot.jpg",
             "tech": "Python, OpenAI API, Flask, React",
-            "link": "https://github.com/yourusername/real-estate-chatbot"
+            "link": "https://github.com/LannonTheCannon/A_Plus_Realty_and_Mortgage_Chatbot.git"
         },
         {
             "title": "Chiropractic Patient Management System",
             "description": "Designed a SOAP notes system handling 200+ daily entries, improving documentation efficiency by 30%.",
             "image": "chiro-management.jpg",
             "tech": "Python, Django, PostgreSQL, React",
-            "link": "https://github.com/yourusername/chiro-management"
+            "link": "https://github.com/LannonTheCannon/Body_RES_SOAP_Reporting.git"
         }
     ]
 
@@ -84,13 +84,13 @@ def display_projects():
             </div>
             """, unsafe_allow_html=True)
             
-            # Display project image if it exists
-            image_path = os.path.join(os.path.dirname(__file__), "assets", project['image'])
-            if os.path.exists(image_path):
-                image = Image.open(image_path)
-                st.image(image, use_column_width=True)
-            else:
-                st.warning(f"Image not found for {project['title']}")
+##            # Display project image if it exists
+##            image_path = os.path.join(os.path.dirname(__file__), "assets", project['image'])
+##            if os.path.exists(image_path):
+##                image = Image.open(image_path)
+##                st.image(image, use_column_width=True)
+##            else:
+##                st.warning(f"Image not found for {project['title']}")
 
 if __name__ == "__main__":
     st.set_page_config(page_title="My Projects", layout="wide")

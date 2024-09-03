@@ -1,9 +1,9 @@
 import streamlit as st
-from streamlit_timeline import st_timeline
+
 import base64
 import os
 from PIL import Image
-from datetime import datetime, date
+
 
 def display_resume():
     # Custom CSS
@@ -65,28 +65,6 @@ def display_resume():
     else:
         st.error("Resume PDF file not found. Please check the file path.")
 
-    # Career Timeline
-    #st.markdown('<h2 class="section-header">Career Timeline</h2>', unsafe_allow_html=True)
-    st.subheader('Career Timeline')
-    # Get current date
-    current_date = date.today().isoformat()
-
-    timeline_items = [
-        {"id": 1, "content": "Data Quality Analyst at Scale AI", "start": "2024-04-01", "end": current_date},
-        {"id": 2, "content": "Software Developer at InStack AI Solutions", "start": "2022-06-01", "end": current_date},
-        {"id": 3, "content": "Data Analyst at Logic Labs LLC", "start": "2021-05-01", "end": "2023-02-28"},
-        {"id": 4, "content": "Graduated from California State University - Fullerton", "start": "2021-08-01"},
-    ]
-
-    timeline = st_timeline(timeline_items, groups=[], options={
-        "zoomable": False,
-        "height": "300px",
-        "stack": True,
-        "showCurrentTime": True,
-    })
-
-    if timeline:
-        st.markdown(f'<p class="highlight-text">Selected: {timeline}</p>', unsafe_allow_html=True)
 
 if __name__ == "__main__":
     st.set_page_config(page_title="Lannon Khau - Resume", layout="wide")
