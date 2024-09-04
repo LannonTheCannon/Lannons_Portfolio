@@ -276,19 +276,19 @@ def display_home():
             "title": "NASA Exoplanet Archive",
             "image": "Exoplanets.jpg",
             "description": "Analysis and visualization of exoplanet data from NASA's archive, providing insights into planetary systems beyond our solar system.",
-            "tech_stack": ["Python", "Pandas", "Matplotlib", "Streamlit"]
+            "tech_stack": ["Python", "Pandas", "Tensorflow", "Scikit-learn" ,"Matplotlib", "Streamlit"]
         },
         {
             "title": "Real Estate AI Integration",
             "image": "Real_Estate.png",
             "description": "AI-powered platform for real estate market analysis, predicting property values and identifying investment opportunities.",
-            "tech_stack": ["TensorFlow", "Scikit-learn", "React", "Node.js"]
+            "tech_stack": ["Streamlit", "OpenAI API", "LangChain", "NL2SQL", "PostGres", "Python"]
         },
         {
             "title": "Medical AI Diagnostics",
             "image": "Health_AI.jpg",
             "description": "Machine learning model for early detection of diseases using medical imaging, improving diagnostic accuracy and speed.",
-            "tech_stack": ["PyTorch", "OpenCV", "Flask", "Docker"]
+            "tech_stack": ["Streamlit", "Python", "Postgres"]
         }
     ]
 
