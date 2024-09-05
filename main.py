@@ -126,7 +126,8 @@ def get_avatar(role):
     elif role == "assistant":
         return "🤖"  # Robot emoji for AI assistant
     else:
-        return None  # Default to no avatar for other rolesdef main():
+        return None  # Default to no avatar for other roles
+def main():
     st.set_page_config(page_title='Lannon Khau - Portfolio', layout='wide')
 
     # Get the path to the image
