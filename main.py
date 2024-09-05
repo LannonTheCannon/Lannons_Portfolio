@@ -100,17 +100,17 @@ def display_chatbot():
     st.title('Mark Watney Chatbot')
     
     for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
+        with st.chat_message(message["role"], avatar=get_avatar(message["role"])):
             st.markdown(message["content"])
 
     prompt = st.chat_input("Ask me anything!")
     
     if prompt:
         st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
+        with st.chat_message("user", avatar=get_avatar("user")):
             st.markdown(prompt)
 
-        with st.chat_message("assistant"):
+        with st.chat_message("assistant", avatar=get_avatar("assistant")):
             message_placeholder = st.empty()
             full_response = get_assistant_response(
                 ASSISTANT_ID,
@@ -120,7 +120,13 @@ def display_chatbot():
             message_placeholder.markdown(full_response)
         st.session_state.messages.append({"role": "assistant", "content": full_response})
 
-def main():
+def get_avatar(role):
+    if role == "user":
+        return "👨‍🚀"  # Astronaut emoji for user (Mark Watney)
+    elif role == "assistant":
+        return "🤖"  # Robot emoji for AI assistant
+    else:
+        return None  # Default to no avatar for other rolesdef main():
     st.set_page_config(page_title='Lannon Khau - Portfolio', layout='wide')
 
     # Get the path to the image
