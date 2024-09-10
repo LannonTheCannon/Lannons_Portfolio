@@ -102,14 +102,12 @@ def display_chatbot():
     for message in st.session_state.messages:
         with st.chat_message(message["role"], avatar=get_avatar(message["role"])):
             st.markdown(message["content"])
-
     prompt = st.chat_input("Ask me anything!")
     
     if prompt:
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user", avatar=get_avatar("user")):
             st.markdown(prompt)
-
         with st.chat_message("assistant", avatar=get_avatar("assistant")):
             message_placeholder = st.empty()
             full_response = get_assistant_response(
@@ -122,9 +120,9 @@ def display_chatbot():
 
 def get_avatar(role):
     if role == "user":
-        return "👨‍🚀"  # Astronaut emoji for user (Mark Watney)
+        return "https://www.themarysue.com/wp-content/uploads/2023/03/Tanjiro-Demon-Slayer.jpg"  # URL to Mark Watney's image
     elif role == "assistant":
-        return "🤖"  # Robot emoji for AI assistant
+        return "https://ladygeekgirl.wordpress.com/wp-content/uploads/2015/10/mark-watney-matt-damon.jpg"  # URL to AI assistant's image
     else:
         return None  # Default to no avatar for other roles
 def main():
