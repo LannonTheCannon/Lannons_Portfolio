@@ -120,16 +120,16 @@ def display_chatbot():
 
 def get_avatar(role):
     if role == "user":
-        return "https://www.themarysue.com/wp-content/uploads/2023/03/Tanjiro-Demon-Slayer.jpg"  # URL to Mark Watney's image
+        return "https://www.themarysue.com/wp-content/uploads/2023/03/Tanjiro-Demon-Slayer.jpg"
     elif role == "assistant":
-        return "https://ladygeekgirl.wordpress.com/wp-content/uploads/2015/10/mark-watney-matt-damon.jpg"  # URL to AI assistant's image
+        return "https://ladygeekgirl.wordpress.com/wp-content/uploads/2015/10/mark-watney-matt-damon.jpg"
     else:
         return None  # Default to no avatar for other roles
 def main():
     st.set_page_config(page_title='Lannon Khau - Portfolio', layout='wide')
 
     # Get the path to the image
-    profile_pic_path = os.path.join(os.path.dirname(__file__), "images", "profile.jpg")
+    profile_pic_path = os.path.join(os.path.dirname(__file__), "images", "prof.jpg")
     sidebar_bg_path = os.path.join(os.path.dirname(__file__), 'images', 'natural_wood.png')
     # Set the image as background for the profile-pic div
     set_background_images(profile_pic_path, sidebar_bg_path)
