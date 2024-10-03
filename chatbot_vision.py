@@ -99,5 +99,5 @@ def main():
     st.display_chatbot()
 
 if __name__ == '__main__':
-    main() 
+    main()
 
