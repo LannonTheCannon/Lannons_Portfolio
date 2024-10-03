@@ -7,6 +7,7 @@ from src2.project_page import display_projects
 from src2.showcase_page import display_showcase
 import time
 import base64
+import datetime
 
 ASSISTANT_ID = 'asst_OUgnR5TbpMHivgAvdaG28t3I'
 THREAD_ID = 'thread_Ph5I8HpBIDb3rrIieBLfimlJ'
