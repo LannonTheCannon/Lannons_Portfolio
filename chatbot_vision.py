@@ -1,90 +1,57 @@
-from streamlit as st
-import os
+import streamlit as st
 import openai
-import time
-import base64
 
-ASSISTANT_ID = 'asst_OUgnR5TbpMHivgAvdaG28t3I'
-THREAD_ID = 'thread_Ph5I8HpBIDb3rrIieBLfimlJ'
-client = openai.OpenAI(api_key=st.secrets['OPENAI_API_KEY'])
+# Set your OpenAI API key
+openai.api_key = st.secrets['OPENAI_API_KEY']
 
+# Initialize session state for messages
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-
-def get_assistant_response(assistant_id, thread_id, user_input):
+def get_assistant_response(user_input):
     try:
-        # Add the user's message to the thread
-        client.beta.threads.messages.create(
-            thread_id=thread_id,
-            role="user",
-            content=user_input
-        )
-        # Create a run
-        run = client.beta.threads.runs.create(
-            thread_id=thread_id,
-            assistant_id=assistant_id
-        )
-        # Wait for the run to complete
-        while True:
-            run_status = client.beta.threads.runs.retrieve(thread_id=thread_id, run_id=run.id)
-            if run_status.status == 'completed':
-                break
-            time.sleep(1)
-        # Retrieve the assistant's messages
-        messages = client.beta.threads.messages.list(thread_id=thread_id)
+        # Append the user's message to the conversation
+        st.session_state.messages.append({"role": "user", "content": user_input})
 
-        # Return the latest assistant message
-        return messages.data[0].content[0].text.value
-    except Exception as e:
-        st.error(f"Error getting assistant response: {str(e)}")
+        # Get the assistant's response
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=st.session_state.messages,
+        )
+
+        assistant_message = response.choices[0].message['content']
+
+        # Append the assistant's response to the conversation
+        st.session_state.messages.append({"role": "assistant", "content": assistant_message})
+
+        return assistant_message
+    except openai.error.OpenAIError as e:
+        st.error(f"Error getting assistant response: {e}")
         return "I'm sorry, but an error occurred while processing your request."
 
+def analyze_image(file):
+    try:
+        file.seek(0)
+        # Send the image along with the message
+        response = openai.ChatCompletion.create(
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "user",
+                    "content": "Please analyze the attached image.",
+                    "image": file
+                }
+            ]
+        )
+        assistant_message = response.choices[0].message['content']
 
-def display_chatbot():
-    st.title('Mark Watney Chatbot')
+        # Append the assistant's response to the conversation
+        st.session_state.messages.append({"role": "assistant", "content": assistant_message})
 
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"], avatar=get_avatar(message["role"])):
-            st.markdown(message["content"])
-    prompt = st.chat_input("Ask me anything!")
-
-    if prompt:
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user", avatar=get_avatar("user")):
-            st.markdown(prompt)
-        with st.chat_message("assistant", avatar=get_avatar("assistant")):
-            message_placeholder = st.empty()
-            full_response = get_assistant_response(
-                ASSISTANT_ID,
-                THREAD_ID,
-                prompt
-            )
-            message_placeholder.markdown(full_response)
-        st.session_state.messages.append({"role": "assistant", "content": full_response})
-
-
-def display_chatbot():
-    st.title('Mark Watney Chatbot')
-
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"], avatar=get_avatar(message["role"])):
-            st.markdown(message["content"])
-    prompt = st.chat_input("Ask me anything!")
-
-    if prompt:
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user", avatar=get_avatar("user")):
-            st.markdown(prompt)
-        with st.chat_message("assistant", avatar=get_avatar("assistant")):
-            message_placeholder = st.empty()
-            full_response = get_assistant_response(
-                ASSISTANT_ID,
-                THREAD_ID,
-                prompt
-            )
-            message_placeholder.markdown(full_response)
-        st.session_state.messages.append({"role": "assistant", "content": full_response})
+        return assistant_message
+    except openai.error.OpenAIError as e:
+        st.error(f"Error analyzing image: {e}")
+        return "I'm sorry, but I couldn't process the image."
 
 def get_avatar(role):
     if role == "user":
@@ -94,10 +61,41 @@ def get_avatar(role):
     else:
         return None  # Default to no avatar for other roles
 
+def display_chatbot():
+    st.title('Mark Watney Chatbot')
+
+    # Display previous messages
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"], avatar=get_avatar(message["role"])):
+            if message.get("type") == "image":
+                st.image(message["content"], caption="Uploaded Image", use_column_width=True)
+            else:
+                st.markdown(message["content"])
+
+    # Input for text messages
+    prompt = st.chat_input("Ask me anything!")
+
+    if prompt:
+        with st.chat_message("user", avatar=get_avatar("user")):
+            st.markdown(prompt)
+        assistant_response = get_assistant_response(prompt)
+        with st.chat_message("assistant", avatar=get_avatar("assistant")):
+            st.markdown(assistant_response)
+
+    # File uploader for images
+    uploaded_image = st.file_uploader('Upload an image for analysis', type=['png', 'jpg', 'jpeg'])
+    if uploaded_image:
+        # Display the uploaded image
+        with st.chat_message("user", avatar=get_avatar("user")):
+            st.image(uploaded_image, caption='Uploaded Image', use_column_width=True)
+        # Analyze the image
+        image_analysis = analyze_image(uploaded_image)
+        with st.chat_message("assistant", avatar=get_avatar("assistant")):
+            st.markdown(image_analysis)
+
 def main():
-    st.set_page_config(page_title='Lannon Khau - Portfolio', layout='wide')
-    st.display_chatbot()
+    st.set_page_config(page_title='Mark Watney Chatbot', layout='wide')
+    display_chatbot()
 
 if __name__ == '__main__':
     main()
-
