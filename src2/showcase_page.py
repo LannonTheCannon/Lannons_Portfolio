@@ -1,11 +1,11 @@
 import streamlit as st
 from datetime import datetime, timedelta
 import base64
-import requests
 from streamlit_lottie import st_lottie
+from security import safe_requests
 
 def load_lottieurl(url: str):
-    r = requests.get(url)
+    r = safe_requests.get(url)
     if r.status_code != 200:
         return None
     return r.json()
