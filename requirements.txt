@@ -1,5 +1,5 @@
 streamlit==1.38.0
-openai==1.43.0
+openai
 python-dotenv==1.0.1
 pillow
 streamlit-lottie==0.0.5
